@@ -12,6 +12,7 @@ namespace FitTrack.BL
 
             services.AddScoped<IUserService, UserService>(); 
             services.AddScoped<ISubscriptionService, SubscriptionService>();
+            services.AddScoped<IBlUserService, BlUserService>();
 
 
             return services;
