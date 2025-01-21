@@ -4,6 +4,7 @@ using FitTrack.BL;
 using FitTrack.DL;
 using Serilog.Sinks.SystemConsole.Themes;
 using Serilog;
+using FitTrack.HealthCheck;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,9 @@ builder.Services.AddMapster();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHealthChecks()
+    .AddCheck<CustomHealthCheck>("Sample");
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -37,6 +41,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapHealthChecks("/healthz");
+
 
 // Configure the HTTP request pipeline.
 
