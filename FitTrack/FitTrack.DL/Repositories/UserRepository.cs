@@ -1,5 +1,7 @@
 ﻿using FitTrack.DL.Interfaces;
+using FitTrack.Models.Configurations;
 using FitTrack.Models.DTO;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace FitTrack.DL.Repositories
@@ -8,12 +10,16 @@ namespace FitTrack.DL.Repositories
     {
         private readonly IMongoCollection<User> _users;
 
-        public UserRepository(IMongoDatabase database)
+        public UserRepository(IOptionsMonitor<MongoDbConfiguration> mongoConfig)
         {
-            _users = database.GetCollection<User>("Users");
+            var client = new MongoClient(mongoConfig.CurrentValue.ConnectionString);
+            var database = client.GetDatabase(mongoConfig.CurrentValue.DatabaseName);
+
+
+            _users = database.GetCollection<User>($"{nameof(User)}s");
         }
 
-        public IEnumerable<User> GetAll()
+        public List<User> GetAll()
         {
             return _users.Find(_ => true).ToList();
         }
@@ -23,27 +29,16 @@ namespace FitTrack.DL.Repositories
             return _users.Find(user => user.Id == id).FirstOrDefault();
         }
 
-        public void Create(User entity)
+        public void Create(User user)
         {
-            _users.InsertOne(entity);
+            user.Id=Guid.NewGuid().ToString();
+            _users.InsertOne(user);
         }
 
-        public void Update(string id, User entity)
-        {
-            _users.ReplaceOne(user => user.Id == id, entity);
-        }
 
         public void Delete(string id)
         {
             _users.DeleteOne(user => user.Id == id);
         }
-    }
-    public interface ISubscriptionRepository
-    {
-        IEnumerable<Subscription> GetAll();
-        Subscription GetById(string id);
-        void Create(Subscription entity);
-        void Update(string id, Subscription entity);
-        void Delete(string id);
     }
 }

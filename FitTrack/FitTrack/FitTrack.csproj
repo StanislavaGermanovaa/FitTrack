@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.4.0" />
+    <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
     <PackageReference Include="MongoDB.Driver" Version="3.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\FitTrack.BL\FitTrack.BL.csproj" />
+    <ProjectReference Include="..\FitTrack.DL\FitTrack.DL.csproj" />
+    <ProjectReference Include="..\FitTrack.Models\FitTrack.Models.csproj" />
   </ItemGroup>
 
 </Project>

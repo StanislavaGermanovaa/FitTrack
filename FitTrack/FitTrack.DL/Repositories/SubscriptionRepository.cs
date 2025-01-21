@@ -1,17 +1,24 @@
-﻿using FitTrack.Models.DTO;
+﻿using FitTrack.Models.Configurations;
+using FitTrack.Models.DTO;
 using MongoDB.Driver;
+using FitTrack.DL.Interfaces;
+using Microsoft.Extensions.Options;
+
 namespace FitTrack.DL.Repositories
 {
     public class SubscriptionRepository : ISubscriptionRepository
     {
         private readonly IMongoCollection<Subscription> _subscriptions;
 
-        public SubscriptionRepository(IMongoDatabase database)
+        public SubscriptionRepository(IOptionsMonitor<MongoDbConfiguration> mongoConfig)
         {
-            _subscriptions = database.GetCollection<Subscription>("Subscriptions");
+            var client = new MongoClient(mongoConfig.CurrentValue.ConnectionString);
+            var database = client.GetDatabase(mongoConfig.CurrentValue.DatabaseName);
+
+            _subscriptions = database.GetCollection<Subscription>($"{nameof(Subscription)}s");
         }
 
-        public IEnumerable<Subscription> GetAll()
+        public List<Subscription> GetAll()
         {
             return _subscriptions.Find(_ => true).ToList();
         }
@@ -21,15 +28,12 @@ namespace FitTrack.DL.Repositories
             return _subscriptions.Find(subscription => subscription.Id == id).FirstOrDefault();
         }
 
-        public void Create(Subscription entity)
+        public void Create(Subscription subscription)
         {
-            _subscriptions.InsertOne(entity);
+            subscription.Id=Guid.NewGuid().ToString();
+            _subscriptions.InsertOne(subscription);
         }
 
-        public void Update(string id, Subscription entity)
-        {
-            _subscriptions.ReplaceOne(subscription => subscription.Id == id, entity);
-        }
 
         public void Delete(string id)
         {
