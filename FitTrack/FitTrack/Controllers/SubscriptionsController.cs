@@ -55,6 +55,12 @@ namespace FitTrack.Controllers
         [HttpPost("AddSubscription")]
         public ActionResult<SubscriptionResponse> AddSubscription([FromBody] SubscriptionRequest subscriptionRequest)
         {
+            
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); 
+            }
+
             var subscription = _mapper.Map<Subscription>(subscriptionRequest);
             _subscriptionService.CreateSubscription(subscription);
             var subscriptionResponse = _mapper.Map<SubscriptionResponse>(subscription);

@@ -57,6 +57,11 @@ namespace FitTrack.Controllers
         [HttpPost("AddUser")]
         public ActionResult<UserResponse> AddUser([FromBody] UserRequest userRequest)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var user = _mapper.Map<User>(userRequest);
             _userService.CreateUser(user);
             var userResponse = _mapper.Map<UserResponse>(user);

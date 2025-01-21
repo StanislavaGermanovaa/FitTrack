@@ -5,6 +5,9 @@ using FitTrack.DL;
 using Serilog.Sinks.SystemConsole.Themes;
 using Serilog;
 using FitTrack.HealthCheck;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using FitTrack.Validators;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,8 +28,10 @@ builder.Services
 
 builder.Services.AddMapster();
 
-//builder.Services.AddValidatorsFromAssemblyContaining<TestRequest>();
-//builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<UserRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<SubscriptionRequestValidator>();
+builder.Services.AddFluentValidationAutoValidation();
+
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
