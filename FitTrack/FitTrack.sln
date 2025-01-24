@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitTrack", "FitTrack\FitTrack.csproj", "{CD6A7BB4-74C9-4EA2-8ABF-5591994668D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitTrack", "FitTrack\FitTrack.csproj", "{CD6A7BB4-74C9-4EA2-8ABF-5591994668D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitTrack.Models", "FitTrack.Models\FitTrack.Models.csproj", "{2A0491B5-E152-40C5-AC6B-6BF1DCA429BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitTrack.Models", "FitTrack.Models\FitTrack.Models.csproj", "{2A0491B5-E152-40C5-AC6B-6BF1DCA429BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitTrack.DL", "FitTrack.DL\FitTrack.DL.csproj", "{DBE3E9EB-FDC8-450B-B83E-D907F97C382A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitTrack.DL", "FitTrack.DL\FitTrack.DL.csproj", "{DBE3E9EB-FDC8-450B-B83E-D907F97C382A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitTrack.BL", "FitTrack.BL\FitTrack.BL.csproj", "{680944FA-3C16-4846-930A-C8B78AF53B42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitTrack.BL", "FitTrack.BL\FitTrack.BL.csproj", "{680944FA-3C16-4846-930A-C8B78AF53B42}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitTrack.Tests", "FitTrack.Tests\FitTrack.Tests.csproj", "{100ED2A2-2CC6-452A-8B3C-7FFED25B16F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{680944FA-3C16-4846-930A-C8B78AF53B42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{680944FA-3C16-4846-930A-C8B78AF53B42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{680944FA-3C16-4846-930A-C8B78AF53B42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{100ED2A2-2CC6-452A-8B3C-7FFED25B16F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{100ED2A2-2CC6-452A-8B3C-7FFED25B16F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{100ED2A2-2CC6-452A-8B3C-7FFED25B16F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{100ED2A2-2CC6-452A-8B3C-7FFED25B16F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
