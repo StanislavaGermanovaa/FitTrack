@@ -8,5 +8,7 @@ namespace FitTrack.DL.Interfaces
         Subscription GetById(string id);
         void Create(Subscription entity);
         void Delete(string id);
+
+        void UpdateSubscription(Subscription subscription);
     }
 }

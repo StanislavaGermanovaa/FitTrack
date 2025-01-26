@@ -39,5 +39,11 @@ namespace FitTrack.DL.Repositories
         {
             _subscriptions.DeleteOne(subscription => subscription.Id == id);
         }
+
+        public void UpdateSubscription(Subscription subscription)
+        {
+            var filter = Builders<Subscription>.Filter.Eq(s => s.Id, subscription.Id);
+            _subscriptions.ReplaceOne(filter, subscription);
+        }
     }
 }

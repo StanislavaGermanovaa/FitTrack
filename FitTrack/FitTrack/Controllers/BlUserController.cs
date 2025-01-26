@@ -2,6 +2,7 @@
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using FitTrack.BL.Interfaces;
+using FitTrack.Models.Request;
 
 namespace FitTrack.Controllers
 {
@@ -38,6 +39,25 @@ namespace FitTrack.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error in GetUserSubscriptions: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPut("UpdateSubscriptionForUser/{userId}")]
+        public IActionResult UpdateSubscriptionForUser(string userId, [FromBody] SubscriptionRequest request)
+        {
+            try
+            {
+                var result = _businessService.UpdateSubscriptionForUser(userId, request);
+                if (!result)
+                {
+                    return NotFound($"No active subscription found for user with ID {userId}.");
+                }
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error in UpdateSubscriptionForUser: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
