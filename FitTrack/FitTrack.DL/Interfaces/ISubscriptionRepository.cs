@@ -4,11 +4,11 @@ namespace FitTrack.DL.Interfaces
 {
     public interface ISubscriptionRepository
     {
-        List<Subscription> GetAll();
-        Subscription GetById(string id);
-        void Create(Subscription entity);
-        void Delete(string id);
-
-        void UpdateSubscription(Subscription subscription);
+        Task<List<Subscription>> GetAllAsync();
+        Task<Subscription?> GetByIdAsync(string id);
+        Task CreateAsync(Subscription entity);
+        Task DeleteAsync(string id);
+        Task UpdateSubscriptionAsync(Subscription subscription);
     }
+
 }

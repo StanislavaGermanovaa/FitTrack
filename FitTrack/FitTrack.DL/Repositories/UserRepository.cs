@@ -14,31 +14,31 @@ namespace FitTrack.DL.Repositories
         {
             var client = new MongoClient(mongoConfig.CurrentValue.ConnectionString);
             var database = client.GetDatabase(mongoConfig.CurrentValue.DatabaseName);
-
-
             _users = database.GetCollection<User>($"{nameof(User)}s");
         }
 
-        public List<User> GetAll()
+        public async Task<List<User>> GetAllAsync()
         {
-            return _users.Find(_ => true).ToList();
+            var result = await _users.FindAsync(_ => true);
+            return await result.ToListAsync();
         }
 
-        public User GetById(string id)
+        public async Task<User?> GetByIdAsync(string id)
         {
-            return _users.Find(user => user.Id == id).FirstOrDefault();
+            var result = await _users.FindAsync(user => user.Id == id);
+            return await result.FirstOrDefaultAsync();
         }
 
-        public void Create(User user)
+        public async Task CreateAsync(User user)
         {
-            user.Id=Guid.NewGuid().ToString();
-            _users.InsertOne(user);
+            user.Id = Guid.NewGuid().ToString();
+            await _users.InsertOneAsync(user);
         }
 
-
-        public void Delete(string id)
+        public async Task DeleteAsync(string id)
         {
-            _users.DeleteOne(user => user.Id == id);
+            await _users.DeleteOneAsync(user => user.Id == id);
         }
     }
+
 }

@@ -23,11 +23,11 @@ namespace FitTrack.Controllers
         }
 
         [HttpGet("GetAll")]
-        public ActionResult<IEnumerable<SubscriptionResponse>> GetAllSubscriptions()
+        public async Task<ActionResult<IEnumerable<SubscriptionResponse>>> GetAllSubscriptions()
         {
             try
             {
-                var subscriptions = _subscriptionService.GetAllSubscriptions();
+                var subscriptions = await _subscriptionService.GetAllSubscriptionsAsync();
                 var subscriptionResponses = subscriptions.Select(subscription => _mapper.Map<SubscriptionResponse>(subscription));
                 return Ok(subscriptionResponses);
             }
@@ -37,11 +37,10 @@ namespace FitTrack.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-
         [HttpGet("GetById/{id}")]
-        public IActionResult GetSubscriptionById(string id)
+        public async Task<IActionResult> GetSubscriptionById(string id)
         {
-            var subscription = _subscriptionService.GetSubscriptionById(id);
+            var subscription = await _subscriptionService.GetSubscriptionByIdAsync(id);
 
             if (subscription == null)
             {
@@ -53,25 +52,24 @@ namespace FitTrack.Controllers
         }
 
         [HttpPost("AddSubscription")]
-        public ActionResult<SubscriptionResponse> AddSubscription([FromBody] SubscriptionRequest subscriptionRequest)
+        public async Task<ActionResult<SubscriptionResponse>> AddSubscription([FromBody] SubscriptionRequest subscriptionRequest)
         {
-            
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState); 
+                return BadRequest(ModelState);
             }
 
             var subscription = _mapper.Map<Subscription>(subscriptionRequest);
-            _subscriptionService.CreateSubscription(subscription);
+            await _subscriptionService.CreateSubscriptionAsync(subscription);
             var subscriptionResponse = _mapper.Map<SubscriptionResponse>(subscription);
 
             return CreatedAtAction(nameof(GetSubscriptionById), new { id = subscription.Id }, subscriptionResponse);
         }
 
         [HttpDelete("Delete/{id}")]
-        public IActionResult DeleteSubscription(string id)
+        public async Task<IActionResult> DeleteSubscription(string id)
         {
-            _subscriptionService.DeleteSubscription(id);
+            await _subscriptionService.DeleteSubscriptionAsync(id);
             return NoContent();
         }
     }

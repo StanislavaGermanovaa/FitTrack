@@ -10,7 +10,8 @@ namespace FitTrack.BL.Interfaces
 {
     public interface IBlUserService
     {
-        List<Subscription> GetUserWithSubscriptions(string userId);
-        bool UpdateSubscriptionForUser(string userId, SubscriptionRequest request);
+        Task<List<Subscription>> GetUserWithSubscriptionsAsync(string userId);
+        Task<bool> UpdateSubscriptionForUserAsync(string userId, SubscriptionRequest request);
     }
+
 }

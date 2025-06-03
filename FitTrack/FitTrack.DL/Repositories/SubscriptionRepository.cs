@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace FitTrack.DL.Repositories
 {
+
     public class SubscriptionRepository : ISubscriptionRepository
     {
         private readonly IMongoCollection<Subscription> _subscriptions;
@@ -14,36 +15,37 @@ namespace FitTrack.DL.Repositories
         {
             var client = new MongoClient(mongoConfig.CurrentValue.ConnectionString);
             var database = client.GetDatabase(mongoConfig.CurrentValue.DatabaseName);
-
             _subscriptions = database.GetCollection<Subscription>($"{nameof(Subscription)}s");
         }
 
-        public List<Subscription> GetAll()
+        public async Task<List<Subscription>> GetAllAsync()
         {
-            return _subscriptions.Find(_ => true).ToList();
+            var result = await _subscriptions.FindAsync(_ => true);
+            return await result.ToListAsync();
         }
 
-        public Subscription GetById(string id)
+        public async Task<Subscription?> GetByIdAsync(string id)
         {
-            return _subscriptions.Find(subscription => subscription.Id == id).FirstOrDefault();
+            var result = await _subscriptions.FindAsync(s => s.Id == id);
+            return await result.FirstOrDefaultAsync();
         }
 
-        public void Create(Subscription subscription)
+        public async Task CreateAsync(Subscription subscription)
         {
-            subscription.Id=Guid.NewGuid().ToString();
-            _subscriptions.InsertOne(subscription);
+            subscription.Id = Guid.NewGuid().ToString();
+            await _subscriptions.InsertOneAsync(subscription);
         }
 
-
-        public void Delete(string id)
+        public async Task DeleteAsync(string id)
         {
-            _subscriptions.DeleteOne(subscription => subscription.Id == id);
+            await _subscriptions.DeleteOneAsync(s => s.Id == id);
         }
 
-        public void UpdateSubscription(Subscription subscription)
+        public async Task UpdateSubscriptionAsync(Subscription subscription)
         {
             var filter = Builders<Subscription>.Filter.Eq(s => s.Id, subscription.Id);
-            _subscriptions.ReplaceOne(filter, subscription);
+            await _subscriptions.ReplaceOneAsync(filter, subscription);
         }
     }
+
 }

@@ -9,9 +9,10 @@ namespace FitTrack.BL.Interfaces
 {
     public interface IUserService
     {
-        List<User> GetAllUsers();
-        User GetUserById(string id);
-        void CreateUser(User user);
-        void DeleteUser(string id);
+        Task<List<User>> GetAllUsersAsync();
+        Task<User?> GetUserByIdAsync(string id);
+        Task CreateUserAsync(User user);
+        Task DeleteUserAsync(string id);
     }
+
 }

@@ -22,11 +22,11 @@ namespace FitTrack.Controllers
         }
 
         [HttpGet("GetUserSubscriptions/{userId}")]
-        public IActionResult GetUserSubscriptions(string userId)
+        public async Task<IActionResult> GetUserSubscriptions(string userId)
         {
             try
             {
-                var subscriptions = _businessService.GetUserWithSubscriptions(userId);
+                var subscriptions = await _businessService.GetUserWithSubscriptionsAsync(userId);
 
                 if (subscriptions == null || !subscriptions.Any())
                 {
@@ -44,11 +44,11 @@ namespace FitTrack.Controllers
         }
 
         [HttpPut("UpdateSubscriptionForUser/{userId}")]
-        public IActionResult UpdateSubscriptionForUser(string userId, [FromBody] SubscriptionRequest request)
+        public async Task<IActionResult> UpdateSubscriptionForUser(string userId, [FromBody] SubscriptionRequest request)
         {
             try
             {
-                var result = _businessService.UpdateSubscriptionForUser(userId, request);
+                var result = await _businessService.UpdateSubscriptionForUserAsync(userId, request);
                 if (!result)
                 {
                     return NotFound($"No active subscription found for user with ID {userId}.");

@@ -4,9 +4,10 @@ namespace FitTrack.DL.Interfaces
 {
     public interface IUserRepository
     {
-        List<User> GetAll();
-        User GetById(string id);
-        void Create(User entity);
-        void Delete(string id);
+        Task<List<User>> GetAllAsync();
+        Task<User?> GetByIdAsync(string id);
+        Task CreateAsync(User entity);
+        Task DeleteAsync(string id);
     }
+
 }

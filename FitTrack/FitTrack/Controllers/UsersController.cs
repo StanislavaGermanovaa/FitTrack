@@ -23,11 +23,11 @@ namespace FitTrack.Controllers
         }
 
         [HttpGet("GetAll")]
-        public ActionResult<IEnumerable<UserResponse>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<UserResponse>>> GetAllUsers()
         {
             try
             {
-                var users = _userService.GetAllUsers();
+                var users = await _userService.GetAllUsersAsync();
                 var userResponses = users.Select(user => _mapper.Map<UserResponse>(user));
                 return Ok(userResponses);
             }
@@ -39,23 +39,18 @@ namespace FitTrack.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetUserById(string id)
+        public async Task<IActionResult> GetUserById(string id)
         {
-            var user = _userService.GetUserById(id);
+            var user = await _userService.GetUserByIdAsync(id);
 
-            if (user == null)
-            {
-                return NotFound();
-            }
+            if (user == null) return NotFound();
 
             var userResponse = _mapper.Map<UserResponse>(user);
             return Ok(userResponse);
         }
 
         [HttpPost("AddUser")]
-        public ActionResult<UserResponse> AddUser([FromBody] UserRequest userRequest)
+        public async Task<ActionResult<UserResponse>> AddUser([FromBody] UserRequest userRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -63,16 +58,16 @@ namespace FitTrack.Controllers
             }
 
             var user = _mapper.Map<User>(userRequest);
-            _userService.CreateUser(user);
+            await _userService.CreateUserAsync(user);
             var userResponse = _mapper.Map<UserResponse>(user);
 
             return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, userResponse);
         }
 
         [HttpDelete("Delete/{id}")]
-        public IActionResult DeleteUser(string id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
-            _userService.DeleteUser(id);
+            await _userService.DeleteUserAsync(id);
             return NoContent();
         }
     }

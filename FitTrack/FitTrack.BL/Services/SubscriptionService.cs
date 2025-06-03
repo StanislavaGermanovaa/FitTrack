@@ -14,25 +14,13 @@ namespace FitTrack.BL.Services
             _subscriptionRepository = subscriptionRepository;
         }
 
-        public IEnumerable<Subscription> GetAllSubscriptions()
-        {
-            return _subscriptionRepository.GetAll();
-        }
+        public Task<List<Subscription>> GetAllSubscriptionsAsync() => _subscriptionRepository.GetAllAsync();
 
-        public Subscription GetSubscriptionById(string id)
-        {
-            return _subscriptionRepository.GetById(id);
-        }
+        public Task<Subscription?> GetSubscriptionByIdAsync(string id) => _subscriptionRepository.GetByIdAsync(id);
 
-        public void CreateSubscription(Subscription subscription)
-        {
-            _subscriptionRepository.Create(subscription);
-        }
+        public Task CreateSubscriptionAsync(Subscription subscription) => _subscriptionRepository.CreateAsync(subscription);
 
-
-        public void DeleteSubscription(string id)
-        {
-            _subscriptionRepository.Delete(id);
-        }
+        public Task DeleteSubscriptionAsync(string id) => _subscriptionRepository.DeleteAsync(id);
     }
+
 }

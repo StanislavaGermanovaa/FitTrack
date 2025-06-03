@@ -9,9 +9,10 @@ namespace FitTrack.BL.Interfaces
 {
     public interface ISubscriptionService
     {
-        IEnumerable<Subscription> GetAllSubscriptions();
-        Subscription GetSubscriptionById(string id);
-        void CreateSubscription(Subscription subscription);
-        void DeleteSubscription(string id);
+        Task<List<Subscription>> GetAllSubscriptionsAsync();
+        Task<Subscription?> GetSubscriptionByIdAsync(string id);
+        Task CreateSubscriptionAsync(Subscription subscription);
+        Task DeleteSubscriptionAsync(string id);
     }
+
 }

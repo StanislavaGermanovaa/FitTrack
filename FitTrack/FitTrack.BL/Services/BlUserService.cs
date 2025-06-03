@@ -11,43 +11,38 @@ namespace FitTrack.BL.Services
         private readonly ISubscriptionService _subscriptionService;
         private readonly ISubscriptionRepository _subscriptionRepository;
 
-        public BlUserService(IUserService userService, ISubscriptionService subscriptionService,ISubscriptionRepository subscriptionRepository)
+        public BlUserService(IUserService userService, ISubscriptionService subscriptionService, ISubscriptionRepository subscriptionRepository)
         {
             _userService = userService;
             _subscriptionService = subscriptionService;
             _subscriptionRepository = subscriptionRepository;
         }
 
-        public List<Subscription> GetUserWithSubscriptions(string userId)
+        public async Task<List<Subscription>> GetUserWithSubscriptionsAsync(string userId)
         {
-            var user = _userService.GetUserById(userId);
-            if (user == null)
-            {
-                return new List<Subscription>();
-            }
+            var user = await _userService.GetUserByIdAsync(userId);
+            if (user == null) return new();
 
-            return _subscriptionService.GetAllSubscriptions()
-                                       .Where(subscription => subscription.UserId == userId)
-                                       .ToList();
+            var allSubs = await _subscriptionService.GetAllSubscriptionsAsync();
+            return allSubs.Where(sub => sub.UserId == userId).ToList();
         }
 
-        public bool UpdateSubscriptionForUser(string userId, SubscriptionRequest request)
+        public async Task<bool> UpdateSubscriptionForUserAsync(string userId, SubscriptionRequest request)
         {
-            var subscription = _subscriptionRepository.GetAll()
-                                                      .FirstOrDefault(sub => sub.UserId == userId);
-            if (subscription == null)
-            {
-                return false;
-            }
+            var allSubs = await _subscriptionRepository.GetAllAsync();
+            var subscription = allSubs.FirstOrDefault(sub => sub.UserId == userId);
+
+            if (subscription == null) return false;
 
             subscription.Type = request.Type;
             subscription.StartDate = request.StartDate;
             subscription.EndDate = request.EndDate;
             subscription.IsActive = request.IsActive;
 
-            _subscriptionRepository.UpdateSubscription(subscription);
+            await _subscriptionRepository.UpdateSubscriptionAsync(subscription);
             return true;
         }
     }
+
 }
 
