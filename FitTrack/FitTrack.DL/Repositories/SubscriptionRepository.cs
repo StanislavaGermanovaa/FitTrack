@@ -46,6 +46,14 @@ namespace FitTrack.DL.Repositories
             var filter = Builders<Subscription>.Filter.Eq(s => s.Id, subscription.Id);
             await _subscriptions.ReplaceOneAsync(filter, subscription);
         }
+        public async Task<IEnumerable<Subscription?>> FullLoad() => await GetAllAsync();
+
+        public async Task<IEnumerable<Subscription?>> DifLoad(DateTime lastExecuted)
+        {
+            var filter = Builders<Subscription>.Filter.Gt(s => s.UpdatedAt, lastExecuted);
+            var result = await _subscriptions.FindAsync(filter);
+            return await result.ToListAsync();
+        }
     }
 
 }

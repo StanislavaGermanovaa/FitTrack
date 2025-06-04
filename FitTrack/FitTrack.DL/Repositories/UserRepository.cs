@@ -38,6 +38,20 @@ namespace FitTrack.DL.Repositories
         public async Task DeleteAsync(string id)
         {
             await _users.DeleteOneAsync(user => user.Id == id);
+
+        }
+        public async Task<IEnumerable<User?>> FullLoad()
+        {
+            Console.WriteLine("FullLoad called for UserRepository");
+            return await GetAllAsync();
+        }
+
+        public async Task<IEnumerable<User?>> DifLoad(DateTime lastExecuted)
+        {
+            Console.WriteLine($"DifLoad called for UserRepository since {lastExecuted}");
+            var filter = Builders<User>.Filter.Gt(u => u.UpdatedAt, lastExecuted);
+            var result = await _users.FindAsync(filter);
+            return await result.ToListAsync();
         }
     }
 

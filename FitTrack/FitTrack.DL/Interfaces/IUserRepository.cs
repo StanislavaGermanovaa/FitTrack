@@ -1,8 +1,9 @@
 ﻿using FitTrack.Models.DTO;
+using FitTrack.DL.Cache;
 
 namespace FitTrack.DL.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : ICacheRepository<string, User>
     {
         Task<List<User>> GetAllAsync();
         Task<User?> GetByIdAsync(string id);

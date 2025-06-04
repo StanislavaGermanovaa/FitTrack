@@ -4,6 +4,7 @@ using FitTrack.Models.DTO;
 using FitTrack.Models.Request;
 using FitTrack.Models.Response;
 using MapsterMapper;
+using FitTrack.DL.Kafka;
 
 namespace FitTrack.Controllers
 {
@@ -14,12 +15,14 @@ namespace FitTrack.Controllers
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly ILogger<UsersController> _logger;
+        private readonly IKafkaProducer<User> _kafkaProducer;
 
-        public UsersController(IUserService userService, IMapper mapper, ILogger<UsersController> logger)
+        public UsersController(IUserService userService, IMapper mapper, ILogger<UsersController> logger, IKafkaProducer<User> kafkaProducer)
         {
             _userService = userService;
             _mapper = mapper;
             _logger = logger;
+            _kafkaProducer = kafkaProducer;
         }
 
         [HttpGet("GetAll")]
@@ -69,6 +72,19 @@ namespace FitTrack.Controllers
         {
             await _userService.DeleteUserAsync(id);
             return NoContent();
+        }
+
+        [HttpPost("PublishUserToKafka")]
+        public async Task<IActionResult> PublishUserToKafka([FromBody] UserRequest userRequest)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = _mapper.Map<User>(userRequest);
+
+            await _kafkaProducer.Produce(user);
+
+            return Ok("User published to Kafka topic.");
         }
     }
 }
