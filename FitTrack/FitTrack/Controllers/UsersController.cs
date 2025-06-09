@@ -5,6 +5,7 @@ using FitTrack.Models.Request;
 using FitTrack.Models.Response;
 using MapsterMapper;
 using FitTrack.DL.Kafka;
+using FitTrack.DL.Gateways;
 
 namespace FitTrack.Controllers
 {
@@ -16,13 +17,16 @@ namespace FitTrack.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<UsersController> _logger;
         private readonly IKafkaProducer<User> _kafkaProducer;
+        private readonly IUserDetailsGateway _userDetailsGateway;
 
-        public UsersController(IUserService userService, IMapper mapper, ILogger<UsersController> logger, IKafkaProducer<User> kafkaProducer)
+
+        public UsersController(IUserService userService, IMapper mapper, ILogger<UsersController> logger, IKafkaProducer<User> kafkaProducer, IUserDetailsGateway userDetailsGateway)
         {
             _userService = userService;
             _mapper = mapper;
             _logger = logger;
             _kafkaProducer = kafkaProducer;
+            _userDetailsGateway = userDetailsGateway;
         }
 
         [HttpGet("GetAll")]
@@ -86,6 +90,19 @@ namespace FitTrack.Controllers
 
             return Ok("User published to Kafka topic.");
         }
+        [HttpGet("{id}/details")]
+        public async Task<IActionResult> GetUserWithDetails(string id)
+        {
+            var extra = await _userDetailsGateway.GetUserExtraInfo(id);
+
+            if (extra == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(extra);
+        }
+
     }
 }
 

@@ -8,6 +8,7 @@ using FitTrack.HealthCheck;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using FitTrack.Validators;
+using FitTrack.DL.Gateways;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,7 @@ builder.Services.AddMapster();
 builder.Services.AddValidatorsFromAssemblyContaining<UserRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<SubscriptionRequestValidator>();
 builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddScoped<IUserDetailsGateway, UserDetailsGateway>();
 
 
 builder.Services.AddControllers();

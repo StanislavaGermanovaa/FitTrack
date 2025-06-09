@@ -35,7 +35,7 @@ namespace FitTrack.DL.Kafka.KafkaCache
               .SetValueDeserializer(new MessagePackDeserializer<TValue>())
               .Build())
             {
-                consumer.Subscribe("user_cache");
+                consumer.Subscribe("user");
 
                 while (!stoppingToken.IsCancellationRequested)
                 {

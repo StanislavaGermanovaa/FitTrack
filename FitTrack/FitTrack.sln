@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitTrack.BL", "FitTrack.BL\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitTrack.Tests", "FitTrack.Tests\FitTrack.Tests.csproj", "{100ED2A2-2CC6-452A-8B3C-7FFED25B16F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserDetailsAPI", "UserDetailsAPI\UserDetailsAPI.csproj", "{456ADB1B-E849-458A-878F-796C536EE6BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{100ED2A2-2CC6-452A-8B3C-7FFED25B16F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{100ED2A2-2CC6-452A-8B3C-7FFED25B16F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{100ED2A2-2CC6-452A-8B3C-7FFED25B16F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{456ADB1B-E849-458A-878F-796C536EE6BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{456ADB1B-E849-458A-878F-796C536EE6BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{456ADB1B-E849-458A-878F-796C536EE6BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{456ADB1B-E849-458A-878F-796C536EE6BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
